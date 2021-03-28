@@ -16,7 +16,7 @@ zip  operations.zip  *.py
 aws s3 cp local_path "s3://"+bucket_name
 
 
-aws lambda update-function-code --function-name  decrement-operation --s3-bucket "deployment-package1" --s3-key  "operations.zip"  
+echo $(" aws lambda update-function-code --function-name  decrement-operation --s3-bucket "deployment-package1" --s3-key  "operations.zip"  ") &
 aws lambda update-function-code --function-name  increment-operation --s3-bucket "deployment-package1" --s3-key  "operations.zip"  
 aws lambda update-function-code --function-name  square-operation --s3-bucket "deployment-package1" --s3-key  "operations.zip"  
 
