@@ -19,14 +19,14 @@ def main():
         aws_secret_access_key=aws_access_secret,
         region_name='us-east-2'
     )
-    # client = session.client('s3')
+    client = session.client('s3')
 
-    # response = client.upload_file(
-    #     Filename=local_path,
-    #     Bucket=bucket_name,
-    #     Key=aws_key
-    # )
-    # print ('Done uploading')
+    response = client.upload_file(
+        Filename=local_path,
+        Bucket=bucket_name,
+        Key=aws_key
+    )
+    print ('Done uploading')
     client = session.client('lambda')
   
     def files_to_zip(path):
