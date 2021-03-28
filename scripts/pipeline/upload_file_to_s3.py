@@ -44,7 +44,8 @@ def main():
         return buf.getvalue()
     response = client.update_function_code(
     FunctionName='increment-operation',
-    ZipFile=make_zip_file_bytes(path="operations.zip")
+    S3Bucket=bucket_name,
+    S3Key=aws_key,  
     )
     print ('Done updated lambda d')
 
