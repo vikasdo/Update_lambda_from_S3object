@@ -46,7 +46,7 @@ def main():
     FunctionName='increment-operation',
     ZipFile=make_zip_file_bytes(path="operations.zip")
     )
-    print ('Done updated lambda')
+    print ('Done updated lambda d')
 
 
 main()
