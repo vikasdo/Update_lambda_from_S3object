@@ -12,7 +12,15 @@ echo $local_path
 # Create a zip of the current directory.
 zip  operations.zip  *.py
 
-# Install required dependencies for Python script.
-pip3 install boto3
-# Run upload script
-python3 scripts/pipeline/upload_file_to_s3.py $bucket_name $aws_key $aws_access_key $aws_access_secret $local_path
+
+aws s3 cp local_path "s3://"+bucket_name
+
+
+aws lambda update-function-code --function-name  decrement-operation --s3-bucket "deployment-package1" --s3-key  "operations.zip"  
+aws lambda update-function-code --function-name  increment-operation --s3-bucket "deployment-package1" --s3-key  "operations.zip"  
+aws lambda update-function-code --function-name  square-operation --s3-bucket "deployment-package1" --s3-key  "operations.zip"  
+
+# # Install required dependencies for Python script.
+# pip3 install boto3
+# # Run upload script
+# python3 scripts/pipeline/upload_file_to_s3.py $bucket_name $aws_key $aws_access_key $aws_access_secret $local_path
