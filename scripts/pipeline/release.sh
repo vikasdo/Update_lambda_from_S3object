@@ -13,7 +13,7 @@ echo $local_path
 zip  operations.zip  *.py
 
 
-aws s3 cp local_path "s3://"+bucket_name
+aws s3 cp operations.zip s3://deployment-package1
 
 
 echo $(" aws lambda update-function-code --function-name  decrement-operation --s3-bucket "deployment-package1" --s3-key  "operations.zip"  ") &
