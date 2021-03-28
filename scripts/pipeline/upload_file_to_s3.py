@@ -52,7 +52,7 @@ def main():
     S3Bucket=bucket_name,
     S3Key=aws_key,  
     )
-     response = client.update_function_code(
+    response = client.update_function_code(
     FunctionName='square-operation',
     S3Bucket=bucket_name,
     S3Key=aws_key,  
