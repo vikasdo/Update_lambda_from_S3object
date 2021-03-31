@@ -20,6 +20,6 @@ def decrement(event,context):
     label_names = data['target_names']
     response=event
     response["decrement"]=event["square"]-1
-    response["label_names"]=label_names
+    response["label_names"]=label_names[0]
     return response
 
