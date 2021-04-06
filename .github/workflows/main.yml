@@ -42,7 +42,7 @@ jobs:
       - name: upload   deployment package to s3
 
         run: |
-          echo "ARN = ${{ echo aws lambda list-layer-versions --layer-name "publish_sklearn" --region us-east-2 --query LayerVersions[0].LayerVersionArn }}" >> .env
+          echo "ARN = ${{  aws lambda list-layer-versions --layer-name "publish_sklearn" --region us-east-2 --query LayerVersions[0].LayerVersionArn }}" >> .env
       - name: Test
         run: echo ${{ env.ARN }}
         
