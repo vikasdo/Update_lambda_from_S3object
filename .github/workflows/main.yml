@@ -34,27 +34,19 @@ jobs:
       - name: Install requirements and Make a Deployment package
         run: |
           pip install -r requirements.txt -t .
-          rm -rf operations.zip
-          zip -r operations.zip  . -x  '*.git*'  '*.venv*'  *.zip *.txt
-
+         
 
 
 
       # Runs a set of commands using the runners shell
       - name: upload   deployment package to s3
-        arn: aws lambda list-layer-versions --layer-name "publish_sklearn" --region us-east-2 --query LayerVersions[0].LayerVersionArn
+        uses: aws lambda list-layer-versions --layer-name "publish_sklearn" --region us-east-2 --query LayerVersions[0].LayerVersionArn
         run: |
-          aws lambda update-function-configuration --function-name test_skl --layers  ${{ arn }}
+          aws lambda update-function-configuration --function-name test_skl --layers  ${{ uses }}
         
         
-          aws s3 cp operations.zip s3://deployment-package1
+       
  
-      - name: Update  deployment package for lambda from S3 
-        run: |
-            aws lambda update-function-code --function-name  increment-operation --s3-bucket "deployment-package1" --s3-key  "operations.zip"  
-            aws lambda update-function-code --function-name  square-operation --s3-bucket "deployment-package1" --s3-key  "operations.zip" 
-            aws lambda update-function-code --function-name  decrement-operation --s3-bucket "deployment-package1" --s3-key  "operations.zip"  
-  
-
+      
     
     
