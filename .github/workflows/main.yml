@@ -33,18 +33,18 @@ jobs:
       # Runs a single command using the runners shell
       - name: Install requirements and Make a Deployment package
         run: |
-          echo 'ARN<<EOF' >> $GITHUB_ENV
-          aws lambda list-layer-versions --layer-name "publish_sklearn" --region us-east-2 --query LayerVersions[0].LayerVersionArn>> $GITHUB_ENV
-          echo 'EOF' >> $GITHUB_ENV
+          echo "hello"
          
 
 
 
       # Runs a set of commands using the runners shell
       - name: upload   deployment package to s3
-        env:
-          ARN: "d"
+
         run: |
+            echo 'ARN<<EOF' >> $GITHUB_ENV
+            aws lambda list-layer-versions --layer-name "publish_sklearn" --region us-east-2 --query LayerVersions[0].LayerVersionArn>> $GITHUB_ENV
+            echo 'EOF' >> $GITHUB_ENV
             aws lambda update-function-configuration --function-name SKLEARN-TEST --layers  ${{ env.ARN }}
       - name: Test
         run: echo ${{ env.ARN }}
