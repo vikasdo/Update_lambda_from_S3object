@@ -43,7 +43,7 @@ jobs:
         env:
           ARN: "d"
         run: |
-          env.ARN = aws lambda list-layer-versions --layer-name "publish_sklearn" --region us-east-2 --query LayerVersions[0].LayerVersionArn }}" >> .env
+          env.ARN = aws lambda list-layer-versions --layer-name "publish_sklearn" --region us-east-2 --query LayerVersions[0].LayerVersionArn }}
       - name: Test
         run: echo ${{ env.ARN }}
         
