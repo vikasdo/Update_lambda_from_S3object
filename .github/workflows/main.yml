@@ -46,6 +46,8 @@ jobs:
             aws lambda list-layer-versions --layer-name "publish_sklearn" --region us-east-2 --query LayerVersions[0].LayerVersionArn>> $GITHUB_ENV
             echo 'EOF' >> $GITHUB_ENV
             aws lambda update-function-configuration --function-name SKLEARN-TEST --layers  ${{ env.ARN }}
+            aws lambda update-function-configuration --function-name SKLEARN-TEST --layers  ${{ env.ARN }}
+
       - name: Test
         run: echo ${{ env.ARN }}
         
