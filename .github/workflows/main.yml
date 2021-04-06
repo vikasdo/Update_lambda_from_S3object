@@ -45,7 +45,7 @@ jobs:
         env:
           ARN: "d"
         run: |
-          echo aws lambda list-layer-versions --layer-name "publish_sklearn" --region us-east-2 --query LayerVersions[0].LayerVersionArn
+            aws lambda update-function-configuration --function-name SKLEARN-TEST --layers  ${{ env.ARN }}
       - name: Test
         run: echo ${{ env.ARN }}
         
