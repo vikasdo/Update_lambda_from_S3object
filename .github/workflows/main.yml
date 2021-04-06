@@ -34,6 +34,7 @@ jobs:
       - name: Install requirements and Make a Deployment package
         run: |
           echo "hello"
+          echo "ARN = ${{  aws lambda list-layer-versions --layer-name "publish_sklearn" --region us-east-2 --query LayerVersions[0].LayerVersionArn }}" >> .env
           aws lambda list-layer-versions --layer-name "publish_sklearn" --region us-east-2 --query LayerVersions[0].LayerVersionArn
 
          
