@@ -42,7 +42,11 @@ jobs:
 
       # Runs a set of commands using the runners shell
       - name: upload   deployment package to s3
+        arn: aws lambda list-layer-versions --layer-name "publish_sklearn" --region us-east-2 --query LayerVersions[0].LayerVersionArn
         run: |
+          aws lambda update-function-configuration --function-name test_skl --layers  ${{ arn }}
+        
+        
           aws s3 cp operations.zip s3://deployment-package1
  
       - name: Update  deployment package for lambda from S3 
