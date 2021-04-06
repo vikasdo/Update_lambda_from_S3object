@@ -40,10 +40,11 @@ jobs:
 
       # Runs a set of commands using the runners shell
       - name: upload   deployment package to s3
-        env: 
-          ARN : aws lambda list-layer-versions --layer-name "publish_sklearn" --region us-east-2 --query LayerVersions[0].LayerVersionArn
+
         run: |
-          aws lambda update-function-configuration --function-name test_skl --layers  ${{ ARN }}
+          echo "ARN = ${{ echo aws lambda list-layer-versions --layer-name "publish_sklearn" --region us-east-2 --query LayerVersions[0].LayerVersionArn }}" >> .env
+      - name: Test
+        run: echo ${{ env.ARN }}
         
         
        
