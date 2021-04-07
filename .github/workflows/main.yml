@@ -30,18 +30,14 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_SECRET_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
           aws-region: us-east-2
-      # Runs a single command using the runners shell
-      - name: Install requirements and Make a Deployment package
+      - name: save arn in env
         run: |
+          aws lambda publish-layer-version --layer-name  "publish_sklearn" --description "My layer"  --content S3Bucket=deployment-package1,S3Key=sklearn-py3.8.zip --compatible-runtimes python3.8
           echo 'ARN<<EOF' >> $GITHUB_ENV
           aws lambda list-layer-versions --layer-name "publish_sklearn" --region us-east-2 --query LayerVersions[0].LayerVersionArn>> $GITHUB_ENV
           echo 'EOF' >> $GITHUB_ENV
-         
 
-
-
-      # Runs a set of commands using the runners shell
-      - name: upload   deployment package to s3
+      - name: add layer to lambda
 
         run: |
            
