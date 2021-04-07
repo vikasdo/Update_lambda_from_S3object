@@ -16,7 +16,6 @@ on:
 jobs:
   integrate-to-DE-s3:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python
@@ -37,8 +36,7 @@ jobs:
 
       - name: Copy our DE Deployment package to S3 bucket
         run: aws s3 cp ${{ env.DE_DEPLOY_PACKAGE_NAME }} s3://${{ env.S3_BUCKET_NAME}}/
-
-        
+  
   deploy-lambda:
     runs-on: ubuntu-latest
     needs: [integrate-to-s3]
