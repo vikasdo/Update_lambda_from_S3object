@@ -3,7 +3,7 @@
 name: CI
 env:
   S3_BUCKET_NAME              : "deployment-package1"
-  DS_DEPLOY_PACKAGE_NAME      : "bgjobs_ds_package_$(date +%Y%m%d).zip"
+  DS_DEPLOY_PACKAGE_NAME      : "bgjobs_ds_package.zip"
   PYTHON_ENV_1                :  "python3.8"
 
 # Controls when the action will run. 
@@ -48,9 +48,13 @@ jobs:
       - name: Publish layer
         run: |
           aws lambda publish-layer-version \
-          --layer-name  "publish_sklearn" \
-          --content S3Bucket=${{ env.S3_BUCKET_NAME}} , S3Key=${{ env.DS_DEPLOY_PACKAGE_NAME}} \
+          --layer-name  "publish_sklearn_1" \
+          --description "My Python layer" \
+          --content S3Bucket=${{ env.S3_BUCKET_NAME}},S3Key=${{ env.DS_DEPLOY_PACKAGE_NAME}} \
           --compatible-runtimes ${{ env.PYTHON_ENV_1}} 
+          
+      - name: arn
+        run:|
           echo 'ARN<<EOF' >> $GITHUB_ENV
           aws lambda list-layer-versions --layer-name "publish_sklearn" --region us-east-2 --query LayerVersions[0].LayerVersionArn>> $GITHUB_ENV
           echo 'EOF' >> $GITHUB_ENV
