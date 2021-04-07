@@ -29,15 +29,17 @@ jobs:
           aws-region: us-east-2
       - name: Install DS dependencies
         run: |
+          mkdir ds
           python -m pip install --upgrade pip
-          pip install -r ds_requirements.txt -t .
-          zip -r ${{ env.DS_DEPLOY_PACKAGE_NAME }} ./  -x  *.git*
+          pip install -r ds_requirements.txt -t ds
+          zip -r ${{ env.DS_DEPLOY_PACKAGE_NAME }} ds
 
       - name: Install DE dependencies
         run: |
+          mkdir de
           python -m pip install --upgrade pip
-          pip install -r de_requirements.txt -t .
-          zip -r ${{ env.DE_DEPLOY_PACKAGE_NAME }} ./  -x  *.git*
+          pip install -r de_requirements.txt -t de
+          zip -r ${{ env.DE_DEPLOY_PACKAGE_NAME }} de
 
      
       
