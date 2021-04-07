@@ -27,19 +27,20 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_SECRET_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
           aws-region: us-east-2
+   
+
+      - name: Install DE dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r de_requirements.txt -t .
+          zip -r ${{ env.DE_DEPLOY_PACKAGE_NAME }}  ./  -x  *.git*
+
       - name: Install DS dependencies
         run: |
           mkdir ds
           python -m pip install --upgrade pip
           pip install -r ds_requirements.txt -t ds
-          zip -r ${{ env.DS_DEPLOY_PACKAGE_NAME }} ds
-
-      - name: Install DE dependencies
-        run: |
-          mkdir de
-          python -m pip install --upgrade pip
-          pip install -r de_requirements.txt -t de
-          zip -r ${{ env.DE_DEPLOY_PACKAGE_NAME }} de
+          zip -r ${{ env.DS_DEPLOY_PACKAGE_NAME }} ds 
 
      
       
