@@ -81,7 +81,7 @@ jobs:
           run: |
             mkdir python
             python -m pip install --upgrade pip
-            pip install -r ds_requirements.txt -t python
+            pip install -r ds_requirements.txt  --no-dependencies -t python
             zip -r ${{ env.DS_DEPLOY_PACKAGE_NAME }}  python
             zip -r ${{ env.DS_CODE_DEPLOY_PACKAGE_NAME }} all_packages
 
