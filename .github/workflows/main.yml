@@ -1,7 +1,9 @@
 # This is a basic workflow to help you get started with Actions
 
 name: CI
-
+env:
+  S3_BUCKET_NAME              : "deployment-package1"
+  DS_DEPLOY_PACKAGE_NAME      : "bgjobs_ds_package_$(date +%Y%m%d).zip"
 # Controls when the action will run. 
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
@@ -30,9 +32,16 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_SECRET_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
           aws-region: us-east-2
-      - name: save arn in env
+      - name: install dependencies
         run: |
-          aws lambda publish-layer-version --layer-name  "publish_sklearn" --description "My layer"  --content S3Bucket=deployment-package1,S3Key=sklearn-py3.8.zip --compatible-runtimes python3.8
+          pip install -r requirements.txt -t .
+          zip -r ${{ env.DS_DEPLOY_PACKAGE_NAME }} ./  -x  *.git*
+      - name: Copy our DS Deployment package to S3 bucket
+        run: aws s3 cp ${{ env.DS_DEPLOY_PACKAGE_NAME }} s3://${{ env.S3_BUCKET_NAME}}/
+
+      - name: Publish layer
+        run: |
+          aws lambda publish-layer-version --layer-name  "publish_sklearn"  --content S3Bucket=deployment-package1 , S3Key=${{ env.DS_DEPLOY_PACKAGE_NAME }} --compatible-runtimes python3.8
           echo 'ARN<<EOF' >> $GITHUB_ENV
           aws lambda list-layer-versions --layer-name "publish_sklearn" --region us-east-2 --query LayerVersions[0].LayerVersionArn>> $GITHUB_ENV
           echo 'EOF' >> $GITHUB_ENV
@@ -42,7 +51,6 @@ jobs:
         run: |
            
             aws lambda update-function-configuration --function-name SKLEARN-TEST --layers  ${{ env.ARN }}
-            aws lambda update-function-configuration --function-name test_skl --layers  ${{ env.ARN }}
 
       - name: Test
         run: echo ${{ env.ARN }}
