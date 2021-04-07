@@ -4,6 +4,7 @@ name: CI
 env:
   S3_BUCKET_NAME              : "deployment-package1"
   DS_DEPLOY_PACKAGE_NAME      : "bgjobs_ds_package.zip"
+  DS_LAMBDA_LAYER_NAME        : "ds-requirements" 
   PYTHON_ENV_1                :  "python3.8"
 
 # Controls when the action will run. 
@@ -48,21 +49,22 @@ jobs:
       - name: Publish layer
         run: |
           aws lambda publish-layer-version \
-          --layer-name  "publish_sklearn_1" \
+          --layer-name  ${{ env.DS_LAMBDA_LAYER_NAME }} \
           --description "My Python layer" \
           --content S3Bucket=${{ env.S3_BUCKET_NAME}},S3Key=${{ env.DS_DEPLOY_PACKAGE_NAME}} \
           --compatible-runtimes ${{ env.PYTHON_ENV_1}} 
           
-      - name: arn
-        run:|
+      - name: retrieve layer arn
+        run: |
           echo 'ARN<<EOF' >> $GITHUB_ENV
-          aws lambda list-layer-versions --layer-name "publish_sklearn" --region us-east-2 --query LayerVersions[0].LayerVersionArn>> $GITHUB_ENV
+          aws lambda list-layer-versions \
+          --layer-name ${{ env.DS_LAMBDA_LAYER_NAME }} \
+          --region ${{ env.AWS_REGION_NAME }}  \
+          --query LayerVersions[0].LayerVersionArn >> $GITHUB_ENV
           echo 'EOF' >> $GITHUB_ENV
 
       - name: add layer to lambda
-
         run: |
-           
             aws lambda update-function-configuration --function-name SKLEARN-TEST --layers  ${{ env.ARN }}
 
       - name: Test
