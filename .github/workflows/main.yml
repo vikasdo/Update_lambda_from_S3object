@@ -3,6 +3,7 @@
 name: CI
 env:
   S3_BUCKET_NAME              : "deployment-package1"
+  AWS_REGION_NAME             : "us-east-2"
   DS_DEPLOY_PACKAGE_NAME      : "bgjobs_ds_package.zip"
   DS_LAMBDA_LAYER_NAME        : "ds-requirements" 
   PYTHON_ENV_1                :  "python3.8"
