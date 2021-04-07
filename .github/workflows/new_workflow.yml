@@ -5,8 +5,8 @@ env:
   DS_DEPLOY_PACKAGE_NAME      : "bgjobs_ds_package_$(date +%Y%m%d).zip"
   AWS_REGION_NAME             : "us-east-2"
   DS_LAMBDA_LAYER_NAME        : "ds-requirements" 
-  PYTHON_ENV_1                :  "python3.8"
-  DS_CODE_DEPLOY_PACKAGE_NAME :  "ds-code"
+  PYTHON_ENV_1                : "python3.8"
+  DS_CODE_DEPLOY_PACKAGE_NAME : "ds-code"
 
 on:
   push:
