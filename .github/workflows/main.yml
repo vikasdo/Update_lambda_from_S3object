@@ -25,6 +25,8 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
 
       - name: Configure AWS credentials from vikas-test account
         uses: aws-actions/configure-aws-credentials@v1
@@ -32,8 +34,10 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_SECRET_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
           aws-region: us-east-2
+          
       - name: install dependencies
         run: |
+          python -m pip install --upgrade pip
           pip install -r requirements.txt -t .
           zip -r ${{ env.DS_DEPLOY_PACKAGE_NAME }} ./  -x  *.git*
       - name: Copy our DS Deployment package to S3 bucket
