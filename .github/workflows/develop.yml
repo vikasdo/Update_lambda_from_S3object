@@ -70,7 +70,7 @@ jobs:
         run: |
           aws lambda publish-layer-version \
           --layer-name  ${{ env.DS_LAMBDA_LAYER_NAME }} \
-          --content S3Bucket=${{ env.S3_BUCKET_NAME}} , S3Key=${{ env.DS_DEPLOY_PACKAGE_NAME}} \
+          --content S3Bucket=${{ env.S3_BUCKET_NAME}},S3Key=${{ env.DS_DEPLOY_PACKAGE_NAME}} \
           --compatible-runtimes ${{ env.PYTHON_ENV_1}}
 
       - name: retrieve layer arn
