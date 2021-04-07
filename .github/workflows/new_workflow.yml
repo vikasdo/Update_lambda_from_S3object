@@ -84,7 +84,9 @@ jobs:
 
 
         - name: Copy our DS Deployment package to S3 bucket
-          run: aws s3 cp ${{ env.DS_DEPLOY_PACKAGE_NAME }} s3://${{ env.S3_BUCKET_NAME}}/
+          run: |
+            aws s3 cp ${{ env.DS_DEPLOY_PACKAGE_NAME }} s3://${{ env.S3_BUCKET_NAME}}/
+            aws s3 cp ${{ env.DS_CODE_DEPLOY_PACKAGE_NAME }} s3://${{ env.S3_BUCKET_NAME}}/
 
   add_layer:
     runs-on: ubuntu-latest
