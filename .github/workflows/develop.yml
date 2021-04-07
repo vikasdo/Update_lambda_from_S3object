@@ -27,6 +27,11 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_SECRET_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
           aws-region: us-east-2
+      - name: Install DS dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r ds_requirements.txt -t .
+          zip -r ${{ env.DS_DEPLOY_PACKAGE_NAME }} ./  -x  *.git*
 
       - name: Install DE dependencies
         run: |
@@ -34,12 +39,7 @@ jobs:
           pip install -r de_requirements.txt -t .
           zip -r ${{ env.DE_DEPLOY_PACKAGE_NAME }} ./  -x  *.git*
 
-      - name: Install DS dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r ds_requirements.txt -t .
-          zip -r ${{ env.DS_DEPLOY_PACKAGE_NAME }} ./  -x  *.git*
-
+     
       
 
       - name: Copy our DE Deployment package to S3 bucket
