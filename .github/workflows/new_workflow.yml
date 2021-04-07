@@ -10,7 +10,7 @@ env:
 
 on:
   push:
-    branches: [ masters ]
+    branches: [ master ]
   pull_request:
     branches: [ main ]
 jobs:
