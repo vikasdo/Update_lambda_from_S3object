@@ -21,7 +21,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: ${{ env.PYTHON_ENV_1}}
+          python-version: 3.8.6
 
       - name: Configure AWS credentials from vikas-test account
         uses: aws-actions/configure-aws-credentials@v1
@@ -32,7 +32,6 @@ jobs:
 
       - name: Install DE dependencies
         run: |
-          python my_script.py
           python -m pip install --upgrade pip
           pip install -r de_requirements.txt -t .
           zip -r ${{ env.DE_DEPLOY_PACKAGE_NAME }}  ./  -x  *.git* 
@@ -83,7 +82,6 @@ jobs:
         - name: Install DS dependencies
           run: |
             mkdir python
-            python my_script.py
             python -m pip install --upgrade pip
             pip install -r ds_requirements.txt   -t python
             zip -r ${{ env.DS_DEPLOY_PACKAGE_NAME }}  python
