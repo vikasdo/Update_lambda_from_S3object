@@ -20,6 +20,9 @@ jobs:
       - uses: actions/checkout@v2
       - name: Set up Python
         uses: actions/setup-python@v2
+        with:
+          python-version: ${{ env.PYTHON_ENV_1}}
+        run: python my_script.py
 
       - name: Configure AWS credentials from vikas-test account
         uses: aws-actions/configure-aws-credentials@v1
