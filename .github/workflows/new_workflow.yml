@@ -1,12 +1,13 @@
 name: deploy
 env:
-  RUNNER_PYTHON_VERSION       : "3.8"
+ 
   S3_BUCKET_NAME              : "wordnest"
   DE_DEPLOY_PACKAGE_NAME      : "bgjobs_de_package_$(date +%Y%m%d).zip"
   DS_DEPLOY_PACKAGE_NAME      : "bgjobs_ds_package_$(date +%Y%m%d).zip"
   AWS_REGION_NAME             : "us-east-2"
-  DS_LAMBDA_LAYER_NAME        : "ds-requirements" 
-  PYTHON_ENV_1                : "python3.8"
+  DS_LAMBDA_LAYER_NAME        : "ds-requirements"
+  RUNNER_PYTHON_VERSION       : "3.8"
+  PYTHON_ENV                  : "python3.8"
   DS_CODE_DEPLOY_PACKAGE_NAME : "ds-code.zip"
 
 on:
@@ -87,8 +88,8 @@ jobs:
             mkdir python
             python -m pip install --upgrade pip
             pip install -r ds_requirements.txt   -t python
-            zip -r ${{ env.DS_DEPLOY_PACKAGE_NAME }}  python
-            zip -r ${{ env.DS_CODE_DEPLOY_PACKAGE_NAME }} all_packages
+            zip -r ${{ env.DS_DEPLOY_PACKAGE_NAME }}  python # Contains layer requirements 
+            zip -r ${{ env.DS_CODE_DEPLOY_PACKAGE_NAME }} all_packages # Contains ds functions without requirements
 
 
         - name: Copy our DS Deployment package to S3 bucket
@@ -124,7 +125,7 @@ jobs:
           aws lambda publish-layer-version \
           --layer-name  ${{ env.DS_LAMBDA_LAYER_NAME }} \
           --content S3Bucket=${{ env.S3_BUCKET_NAME}},S3Key=${{ env.DS_DEPLOY_PACKAGE_NAME}} \
-          --compatible-runtimes ${{ env.PYTHON_ENV_1}}
+          --compatible-runtimes ${{ env.PYTHON_ENV}}
 
       - name: retrieve layer arn
         run: |
