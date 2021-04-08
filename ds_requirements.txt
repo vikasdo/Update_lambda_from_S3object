@@ -1,4 +1,4 @@
 scikit-learn==0.24.1
 pymongo==3.11.3
 sentry-sdk==1.0.0
-numpy
+numpy==1.20.2
